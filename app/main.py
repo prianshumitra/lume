@@ -1,17 +1,20 @@
-from tkinter.constants import RAISED
-
-from fastapi import FastAPI, Response, status, HTTPException
-from fastapi.params import Body
+from fastapi import FastAPI, status, HTTPException, Depends
 from pydantic import BaseModel #for schema
 from typing import Optional
-from random import randrange
 import psycopg2
 from psycopg2.extras import RealDictCursor
 import time #to use time in try except block
+from . import models
+from sqlalchemy.orm import Session
+from .database import engine, get_db
 
-
+models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
 #app->instance
+
+
+
+#### anything above this can be copied for any project
 
 # title str, content str
 class Post(BaseModel):
@@ -27,6 +30,7 @@ class UpdatePost(BaseModel):
     published: bool = True
     rating: Optional[int] = None
 
+#connect to database
 while True:
     try:
         conn = psycopg2.connect(host="localhost",
@@ -72,21 +76,37 @@ def find_index_post(id):
 def root():
     return {"message": "Hello Krish"}
 
+@app.get("/sqlalchemy")
+def test_posts(db: Session = Depends(get_db)):
+
+    posts = db.query(models.Post).all()
+    return {"data":posts}
+
 @app.get("/posts",status_code=status.HTTP_201_CREATED)
-def get_posts():
-    cursor.execute("""SELECT * FROM posts""")
-    posts = cursor.fetchall()
+def get_posts(db: Session = Depends(get_db)):
+
+    posts =  db.query(models.Post).all()
+    # cursor.execute("""SELECT * FROM posts""")
+    # posts = cursor.fetchall()
     print(posts)
     return {"data": posts}
 
 @app.post("/createposts")
-def create_posts(post: Post):
-    cursor.execute("""INSERT INTO posts (title,content,published) VALUES (%s,%s,%s) RETURNING *""",
-                   (post.title,post.content,post.published))
-    new_post = cursor.fetchone()
+def create_posts(post: Post,db: Session = Depends(get_db)):
 
-    conn.commit()
-    return {"data": new_post}
+    # cursor.execute("""INSERT INTO posts (title,content,published) VALUES (%s,%s,%s) RETURNING *""",
+    #                (post.title,post.content,post.published))
+    # new_post = cursor.fetchone()
+    # conn.commit()
+
+    new_posts=models.Post(title=post.title,
+                          content=post.content,
+                          published=post.published)
+    db.add(new_posts)
+    db.commit()
+    db.refresh(new_posts)
+    
+    return {"data": new_posts}
 
 @app.get("/posts/latest")
 def get_latest():
