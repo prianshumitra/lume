@@ -1,5 +1,6 @@
 from pydantic import BaseModel,EmailStr
 from datetime import datetime
+from typing import Optional
 
 # post to be used in get request to get data from database
 class PostBase(BaseModel):
@@ -25,7 +26,7 @@ class UserCreate(BaseModel):
     email: EmailStr
     password: str
 
-#user response model
+#user-response-model
 class UserOut(BaseModel):
     id: int
     email: EmailStr
@@ -37,3 +38,12 @@ class UserOut(BaseModel):
 class UserLogin(BaseModel):
     email: EmailStr
     password: str
+
+#user-token
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+#token-data
+class TokenData(BaseModel):
+    id: Optional[str] = None
