@@ -5,7 +5,7 @@ from ..database import get_db
 
 router = APIRouter(
     prefix="/users",
-    tags=["users"]
+    tags=["Users"]
 )
 
 # =-CREATE USER-=

@@ -6,7 +6,7 @@ import time #to use time in try except block
 from . import models,schemas,utils
 from sqlalchemy.orm import Session
 from .database import engine, get_db
-from .routers import post,user
+from .routers import post, user, auth
 
 models.Base.metadata.create_all(bind=engine) #to create tables in database
 
@@ -14,6 +14,7 @@ app = FastAPI()
 #app->instance
 app.include_router(post.router)
 app.include_router(user.router)
+app.include_router(auth.router)
 
 
 
@@ -47,21 +48,17 @@ my_posts = [{"title": "title of post 1",
              "id": 2
              }]
 
-def find_post(id):
-    for post in my_posts:
-        if post["id"] == id:
-            return post
-    return None
+# def find_post(id):
+#     for post in my_posts:
+#         if post["id"] == id:
+#             return post
+#     return None
+#
+# def find_index_post(id):
+#     for index,post in enumerate(my_posts):
+#         if post["id"] == id:
+#             return index
 
-def find_index_post(id):
-    for index,post in enumerate(my_posts):
-        if post["id"] == id:
-            return index
-
-# @->decorator
-# app->instance
-# get->http method(there are many methods)
-# /->urlpath
 @app.get("/")
 def root():
     return {"message": "Hello Krish"}

@@ -6,8 +6,13 @@ from ..database import get_db
 
 router = APIRouter(
     prefix="/posts", #adding prefix to all routes that is (/posts/)
-    tags=["posts"]
+    tags=["Posts"]
 )
+
+# @->decorator
+# app->instance
+# get->http method(there are many methods)
+# /->urlpath
 
 # =-GET ALL POSTS-=
 @router.get("/",status_code=status.HTTP_200_OK,response_model=List[schemas.Post]) #can also be done with list[schemas.Post] without importing List

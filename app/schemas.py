@@ -20,6 +20,7 @@ class Post(PostBase): #response model schema
     class Config:
         orm_mode = True
 
+#user to be used in post request to create new user
 class UserCreate(BaseModel):
     email: EmailStr
     password: str
@@ -31,3 +32,8 @@ class UserOut(BaseModel):
     created_at: datetime
     class Config:
         orm_mode = True
+
+#user-login
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str
