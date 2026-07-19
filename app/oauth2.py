@@ -44,6 +44,8 @@ def verify_access_token(token: str, credentials_exception):
     except JWTError:
         raise credentials_exception
 
+    return token_data
+
 # function to get current user and verify access token by using verify_access_token function
 def get_current_user(token: str = Depends(oauth2_scheme)):
     credentials_exception = HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
