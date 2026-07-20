@@ -36,7 +36,7 @@ def get_posts(db: Session = Depends(get_db)):
 
 # =-CREATE POSTS-=
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.Post)
-def create_posts(post: schemas.PostCreate, db: Session = Depends(get_db), get_current_user: int = Depends(oauth2.get_current_user)):
+def create_posts(post: schemas.PostCreate, db: Session = Depends(get_db), current_user: schemas.TokenData = Depends(oauth2.get_current_user)):
 
 #-----------------without using sqlalchemy---------------------------------------------------------------------------------------------
 #
@@ -60,6 +60,7 @@ def create_posts(post: schemas.PostCreate, db: Session = Depends(get_db), get_cu
 
 #-----------------when many fields present and using sqlalchemy--------------------------------------------------------------
 #
+    print(current_user.id)
     new_posts = models.Post(**post.model_dump())
     db.add(new_posts)
     db.commit()
@@ -95,7 +96,7 @@ def get_post(id: int, db: Session = Depends(get_db)):
 
 # =-DELETE POST-=
 @router.delete("/{id}",status_code=status.HTTP_204_NO_CONTENT)
-def delete_post(id: int, db: Session = Depends(get_db)):
+def delete_post(id: int, db: Session = Depends(get_db), current_user: schemas.TokenData = Depends(oauth2.get_current_user)):
 #-------------------------without using sqlalchemy----------------------------------------------------------
 #
     # cursor.execute("""DELETE FROM posts WHERE id = %s RETURNING *""",(str(id)))
@@ -107,6 +108,8 @@ def delete_post(id: int, db: Session = Depends(get_db)):
 #
 #----------------------------------------------------------------------------------------------------------
 #--------------------------with using sqlalchemy-----------------------------------------------------------
+#
+    print(current_user.id)
     post = db.query(models.Post).filter(models.Post.id == id).first()
     if post is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
@@ -121,7 +124,7 @@ def delete_post(id: int, db: Session = Depends(get_db)):
 
 # =-UPDATE POST-=
 @router.put("/{id}", response_model= schemas.Post) #update post
-def update_post(id: int, post: schemas.PostCreate, db: Session = Depends(get_db)):
+def update_post(id: int, post: schemas.PostCreate, db: Session = Depends(get_db), current_user: schemas.TokenData = Depends(oauth2.get_current_user)):
 #--------------------without using sqlalchemy---------------------------------------------------------------------------------
 #
     # cursor.execute("""UPDATE posts SET title = %s, content = %s, published = %s, rating = %s WHERE id = %s RETURNING *""",
@@ -135,6 +138,7 @@ def update_post(id: int, post: schemas.PostCreate, db: Session = Depends(get_db)
 #-----------------------------------------------------------------------------------------------------------------------------
 #------------------------with using sqlalchemy--------------------------------------------------------------------------------------
 #
+    print(current_user.id)
     post_query = db.query(models.Post).filter(models.Post.id == id)
     existing_post = post_query.first()
 
