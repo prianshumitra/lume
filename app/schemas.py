@@ -12,11 +12,21 @@ class PostBase(BaseModel):
 class PostCreate(PostBase):
     pass
 
+#user-response-model
+class UserOut(BaseModel):
+    id: int
+    email: EmailStr
+    created_at: datetime
+    class Config:
+        orm_mode = True
+
+
 #post response model
 class Post(PostBase): #response model schema
     id: int
     created_at: datetime
     owner_id: int
+    owner: UserOut # to get the user details with post just like join query in sql
 
     # to use orm_mode in models.py
     #mandatory for response model
@@ -27,14 +37,6 @@ class Post(PostBase): #response model schema
 class UserCreate(BaseModel):
     email: EmailStr
     password: str
-
-#user-response-model
-class UserOut(BaseModel):
-    id: int
-    email: EmailStr
-    created_at: datetime
-    class Config:
-        orm_mode = True
 
 #user-login
 class UserLogin(BaseModel):

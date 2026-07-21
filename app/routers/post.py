@@ -16,7 +16,7 @@ router = APIRouter(
 
 # =-GET ALL POSTS-=
 @router.get("/",status_code=status.HTTP_200_OK,response_model=List[schemas.Post]) #can also be done with list[schemas.Post] without importing List
-def get_posts(db: Session = Depends(get_db)):
+def get_posts(db: Session = Depends(get_db), current_user: schemas.TokenData = Depends(oauth2.get_current_user)):
 
 #----------------without using sqlalchemy------------------------------------
 #
@@ -27,7 +27,7 @@ def get_posts(db: Session = Depends(get_db)):
 
 #------------------with using sqlalchemy-------------------------------------
 #
-    posts =  db.query(models.Post).all()
+    posts = db.query(models.Post).filter(models.Post.owner_id == current_user.id).all()
     print(posts)
     return posts
 #
