@@ -60,8 +60,7 @@ def create_posts(post: schemas.PostCreate, db: Session = Depends(get_db), curren
 
 #-----------------when many fields present and using sqlalchemy--------------------------------------------------------------
 #
-    print(current_user.id)
-    new_posts = models.Post(**post.model_dump())
+    new_posts = models.Post(owner_id=current_user.id, **post.model_dump())
     db.add(new_posts)
     db.commit()
     db.refresh(new_posts)
@@ -109,11 +108,17 @@ def delete_post(id: int, db: Session = Depends(get_db), current_user: schemas.To
 #----------------------------------------------------------------------------------------------------------
 #--------------------------with using sqlalchemy-----------------------------------------------------------
 #
-    print(current_user.id)
+
     post = db.query(models.Post).filter(models.Post.id == id).first()
+
     if post is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"Post with id {id} not found")
+
+    if post.owner_id != current_user.id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                            detail="You are not authorized to delete this post")
+
     db.delete(post)
     db.commit()
 
@@ -138,13 +143,17 @@ def update_post(id: int, post: schemas.PostCreate, db: Session = Depends(get_db)
 #-----------------------------------------------------------------------------------------------------------------------------
 #------------------------with using sqlalchemy--------------------------------------------------------------------------------------
 #
-    print(current_user.id)
+
     post_query = db.query(models.Post).filter(models.Post.id == id)
     existing_post = post_query.first()
 
     if existing_post is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"Post with id {id} not found")
+
+    if existing_post.owner_id != current_user.id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                            detail="You are not authorized to update this post")
 
     post_query.update(post.model_dump())
     db.commit()

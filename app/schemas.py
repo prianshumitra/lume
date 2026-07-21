@@ -7,6 +7,7 @@ class PostBase(BaseModel):
     title: str
     content: str
     published: bool = True
+    rating: Optional[int] = None
 
 class PostCreate(PostBase):
     pass
@@ -15,6 +16,7 @@ class PostCreate(PostBase):
 class Post(PostBase): #response model schema
     id: int
     created_at: datetime
+    owner_id: int
 
     # to use orm_mode in models.py
     #mandatory for response model
