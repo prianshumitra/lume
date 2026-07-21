@@ -1,7 +1,7 @@
 from fastapi import status, HTTPException, Depends, APIRouter
 from sqlalchemy.orm import Session
 from .. import models,schemas,oauth2
-from typing import List
+from typing import List,Optional
 from ..database import get_db
 
 router = APIRouter(
@@ -17,7 +17,7 @@ router = APIRouter(
 # =-GET ALL POSTS-=
 @router.get("/",status_code=status.HTTP_200_OK,response_model=List[schemas.Post]) #can also be done with list[schemas.Post] without importing List
 def get_posts(db: Session = Depends(get_db), current_user: schemas.TokenData = Depends(oauth2.get_current_user),
-              limit: int = 10, skip: int = 0):
+              limit: int = 10, skip: int = 0, search: Optional[str] = ""):
 
 #----------------without using sqlalchemy------------------------------------
 #
@@ -28,9 +28,12 @@ def get_posts(db: Session = Depends(get_db), current_user: schemas.TokenData = D
 
 #------------------with using sqlalchemy-------------------------------------
 #
-    posts = db.query(models.Post).filter(models.Post.owner_id == current_user.id).limit(limit).offset(skip).all()
+    posts = db.query(models.Post).filter(models.Post.owner_id == current_user.id).filter(models.Post.title.contains(search)).limit(limit).offset(skip).all()
     # limit -> to limit the number of rows
     # offset -> to skip the number of rows
+    # search -> to search the data
+    # filter(models.Post.title.contains()) -> to search the data in title column
+
     print(posts)
     return posts
 #
