@@ -2,6 +2,27 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+import time #to use time in try except block
+import psycopg2
+from psycopg2.extras import RealDictCursor
+
+
+# #connect to database
+# while True:
+#     try:
+#         conn = psycopg2.connect(host="localhost",
+#                                database="fast-api",
+#                                user="postgres",
+#                                password="sql",
+#                                cursor_factory=RealDictCursor)
+#         cursor = conn.cursor()
+#         print("Connection to PostgreSQL DB successful")
+#         break
+#
+#     except Exception as error:
+#         print("Connection to PostgreSQL DB unsuccessful", error, "\n")
+#         time.sleep(2)
+
 
 # Define the connection URL for the PostgreSQL database
 SQLALCHEMY_DATABASE_URL = 'postgresql://postgres:sql@localhost:5432/fast-api'
@@ -13,7 +34,7 @@ engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # Create a Base class for our models to inherit from
-Base=  declarative_base()
+Base = declarative_base()
 
 # Dependency function to get a database session for each request, ensuring it's closed after use
 def get_db():
