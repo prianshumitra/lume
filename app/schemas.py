@@ -1,6 +1,8 @@
 from pydantic import BaseModel,EmailStr
 from datetime import datetime
 from typing import Optional
+from typing import Literal
+
 
 # post to be used in get request to get data from database
 class PostBase(BaseModel):
@@ -51,3 +53,8 @@ class Token(BaseModel):
 #token-data
 class TokenData(BaseModel):
     id: Optional[str] = None
+
+#voting
+class Vote(BaseModel):
+    post_id: int
+    dir: Literal[0, 1]
