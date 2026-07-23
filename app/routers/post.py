@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from .. import models,schemas,oauth2
 from typing import List,Optional
 from ..database import get_db
+from sqlalchemy import func
 
 router = APIRouter(
     prefix="/posts", #adding prefix to all routes that is (/posts/)
@@ -38,7 +39,7 @@ router = APIRouter(
 # /->urlpath
 
 # =-GET ALL POSTS-=
-@router.get("/",status_code=status.HTTP_200_OK,response_model=List[schemas.Post]) #can also be done with list[schemas.Post] without importing List
+@router.get("/",status_code=status.HTTP_200_OK,response_model=List[schemas.PostOut]) #can also be done with list[schemas.Post] without importing List
 def get_posts(db: Session = Depends(get_db), current_user: schemas.TokenData = Depends(oauth2.get_current_user),
               limit: int = 10, skip: int = 0, search: Optional[str] = ""):
 
@@ -51,14 +52,19 @@ def get_posts(db: Session = Depends(get_db), current_user: schemas.TokenData = D
 
 #------------------with using sqlalchemy-------------------------------------
 #
-    posts = db.query(models.Post).filter(models.Post.owner_id == current_user.id).filter(models.Post.title.contains(search)).limit(limit).offset(skip).all()
+    posts = (db.query(models.Post).filter(models.Post.title.contains(search)).limit(limit).offset(skip).all())
     # limit -> to limit the number of rows
     # offset -> to skip the number of rows
     # search -> to search the data
     # filter(models.Post.title.contains()) -> to search the data in title column
 
-    print(posts)
-    return posts
+    # SELECT posts.*, COUNT(votes.post_id) AS votes FROM posts LEFT JOIN votes ON votes.post_id = posts.id GROUP BY posts.id;
+    results = db.query(models.Post, func.count(models.Vote.post_id).label("votes")).join(models.Vote, models.Vote.post_id == models.Post.id, isouter=True).group_by(models.Post.id).filter(models.Post.title.contains(search)).limit(limit).offset(skip).all()
+    # by default it performs left inner join or isouter should be true
+    # func.count(models.Vote.post_id) -> to count the number of votes for each post
+    # label -> to give the name to the count column
+
+    return results
 #
 #----------------------------------------------------------------------------
 
@@ -98,7 +104,7 @@ def create_posts(post: schemas.PostCreate, db: Session = Depends(get_db), curren
 #----------------------------------------------------------------------------------------------------------------------------
 
 # =-GET SINGLE POST BY ID-=
-@router.get("/{id}", response_model=schemas.Post) #individual post
+@router.get("/{id}", response_model=schemas.PostOut) #individual post
 def get_post(id: int, db: Session = Depends(get_db)):
 #------------------without using orm (sqlalchemy)-------------------------------------------------------
 #
@@ -109,9 +115,11 @@ def get_post(id: int, db: Session = Depends(get_db)):
 #---------------------------------------------------------------------------------------------------------
 #---------------------with using sqlalchemy---------------------------------------------------------------
 #
-    post = db.query(models.Post).filter(models.Post.id == id).first() #filter is same as WHERE in sql
+    # post = db.query(models.Post).filter(models.Post.id == id).first() #filter is same as WHERE in sql
     #first->to get only one row of occurence
     #all->to get all rows of occurence
+
+    post = db.query(models.Post, func.count(models.Vote.post_id).label("votes")).join(models.Vote, models.Vote.post_id == models.Post.id, isouter=True).group_by(models.Post.id).filter(models.Post.id == id).first()
     print(post)
 
     if not post:

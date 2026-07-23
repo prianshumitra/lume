@@ -35,6 +35,13 @@ class Post(PostBase): #response model schema
     class Config:
         orm_mode = True
 
+#post response model with votes
+class PostOut(BaseModel):
+    Post: Post
+    votes: int
+    class Config:
+        orm_mode = True
+
 #user to be used in post request to create new user
 class UserCreate(BaseModel):
     email: EmailStr
