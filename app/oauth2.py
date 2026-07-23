@@ -1,9 +1,10 @@
 from fastapi import Depends,status,HTTPException
 from jose import JWTError,jwt
-from datetime import datetime,timedelta    #timedelta is used to calculate time difference
+from datetime import datetime,timedelta, timezone    #timedelta is used to calculate time difference
 from . import schemas,database,models
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
+from .config import settings
 
 # Defines the OAuth2 Bearer authentication scheme using /login to obtain JWT access tokens.
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
@@ -17,14 +18,14 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 #     +============================================+
 
 # secret key
-SECRET_KEY = "9f7b4d2c8a6e1f3d5b9c7a2e4f6d8c1b3a5e7f9d2c4b6a8e1f3d5c7b9a2e4f6"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+SECRET_KEY = settings.secret_key
+ALGORITHM = settings.algorithm
+ACCESS_TOKEN_EXPIRE_MINUTES = settings.access_token_expire_minutes
 
 # function to create access token
 def create_access_token(data: dict):
     to_encode = data.copy()
-    expire = datetime.utcnow()+timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    expire = datetime.now(timezone.utc)+timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode.update({"exp": expire})
 
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
@@ -40,7 +41,7 @@ def verify_access_token(token: str, credentials_exception):
 
         if id is None:
             raise credentials_exception
-        token_data = schemas.TokenData(id=id)
+        token_data = schemas.TokenData(id=str(id))
 
     except JWTError:
         raise credentials_exception
@@ -56,6 +57,6 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
     token = verify_access_token(token, credentials_exception)
 
     # get user by id
-    user = db.query(models.User).filter(models.User.id == token.id).first()
+    user = db.query(models.User).filter(models.User.id == int(token.id)).first()
 
     return user

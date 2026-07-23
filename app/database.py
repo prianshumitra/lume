@@ -2,9 +2,11 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-import time #to use time in try except block
-import psycopg2
-from psycopg2.extras import RealDictCursor
+from .config import settings
+
+# import time #to use time in try except block
+# import psycopg2
+# from psycopg2.extras import RealDictCursor
 
 
 # #connect to database
@@ -25,7 +27,7 @@ from psycopg2.extras import RealDictCursor
 
 
 # Define the connection URL for the PostgreSQL database
-SQLALCHEMY_DATABASE_URL = 'postgresql://postgres:sql@localhost:5432/fast-api'
+SQLALCHEMY_DATABASE_URL = f'postgresql://{settings.database_username}:{settings.database_password}@{settings.database_hostname}:{settings.database_port}/{settings.database_name}'
 
 # Create the SQLAlchemy engine that handles the connection to the database
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
