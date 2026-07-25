@@ -4,7 +4,7 @@ from .database import engine
 from .routers import post,user,auth,vote
 
 
-models.Base.metadata.create_all(bind=engine) #to create tables in database
+#models.Base.metadata.create_all(bind=engine) #to create tables in database when no migration tool present(alembic)
 
 app = FastAPI()
 #app->instance
