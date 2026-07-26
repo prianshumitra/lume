@@ -10,9 +10,13 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 #app->instance
 
+#all the origins that can make requests to our api
+origins = ["*"]
+
+# cors middleware -> to allow cross origin requests that means to allow requests from any origin
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
