@@ -24,13 +24,17 @@ A comprehensive Social Media API built with FastAPI, PostgreSQL, and SQLAlchemy.
 
 ## Setup & Installation
 
+Follow these steps to get the application running locally.
+
 ### 1. Clone the repository
+To get started, clone the repository to your local machine:
 ```bash
 git clone <repository-url>
 cd fast-api
 ```
 
 ### 2. Virtual Environment
+It is recommended to use a virtual environment to manage dependencies:
 ```powershell
 # Create virtual environment
 python -m venv venv
@@ -40,6 +44,7 @@ venv\Scripts\activate
 ```
 
 ### 3. Install Dependencies
+The `requirements.txt` file contains all the necessary dependencies for this project. To install them, run:
 ```bash
 pip install -r requirements.txt
 ```
