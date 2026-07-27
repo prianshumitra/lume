@@ -1,0 +1,66 @@
+from fastapi import APIRouter, Depends, status, HTTPException
+from sqlalchemy.orm import Session
+from ..database import get_db
+from .. import models, utils, oauth2
+from fastapi.security.oauth2 import OAuth2PasswordRequestForm
+
+router = APIRouter(tags=["Authentication"])
+
+# =-LOGIN-=
+@router.post("/login")
+def login(user_credentials: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+# OAuth2PasswordRequestForm->to get email and password from the user
+# returns username, password
+
+
+
+    user = db.query(models.User).filter(models.User.email == user_credentials.username).first()
+
+    if not user:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                            detail="Incorrect email or password")
+
+    if not utils.verify(user_credentials.password, user.password):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                            detail="Incorrect email or password")
+
+    # create a token
+    access_token = oauth2.create_access_token(data={"user_id": user.id})
+
+    # return a token
+    return {
+        "access_token" : access_token,
+        "token_type" : "bearer"
+    }
+
+    # +==========================================================================+
+    # |                     JWT TOKEN GENERATION PROCESS                         |
+    # +==========================================================================+
+    # | Payload (Claims)                                                         |
+    # |   • user_id : Unique identifier of the authenticated user                |
+    # |                                                                          |
+    # | Purpose                                                                  |
+    # |   • Identifies the user on future requests                               |
+    # |   • Eliminates the need to log in repeatedly                             |
+    # |   • Sent by the client in the Authorization header                       |
+    # |                                                                          |
+    # | What happens?                                                            |
+    # |   1. User logs in successfully.                                          |
+    # |   2. A JWT is generated containing the payload.                          |
+    # |   3. The token is returned to the client.                                |
+    # |   4. The client sends this token with protected requests.                |
+    # |   5. The server decodes the token and identifies the user.               |
+    # |                                                                          |
+    # | Payload can also contain:                                                |
+    # |   • email                                                                |
+    # |   • username                                                             |
+    # |   • role                                                                 |
+    # |   • sub (JWT standard "subject" claim)                                   |
+    # |                                                                          |
+    # | Best Practice                                                            |
+    # |   • Store only non-sensitive information.                                |
+    # |   • Prefer a unique identifier (user_id or sub).                         |
+    # |   • Never store passwords or confidential data.                          |
+    # +==========================================================================+
+
+
