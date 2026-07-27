@@ -1,6 +1,16 @@
 # FastAPI Social Media API
 
-A comprehensive Social Media API built with FastAPI, PostgreSQL, and SQLAlchemy.
+This robust, production-ready Social Media API facilitates seamless interaction between users through a structured and secure platform. Engineered with performance and scalability in mind, it provides a comprehensive suite of features for content management, user engagement, and secure data handling.
+
+## Core Capabilities
+
+The API is designed to handle high-concurrency workloads while maintaining strict data integrity and security. Key functional areas include:
+
+- **Secure Identity Management**: Implements rigorous OAuth2 authentication with JWT (JSON Web Tokens) to ensure secure user registration and session management.
+- **Dynamic Content Lifecycle**: Provides high-performance CRUD (Create, Read, Update, Delete) operations for post management, featuring advanced pagination and targeted search functionality.
+- **Interactive Engagement Engine**: Supports a real-time voting system, allowing for sophisticated user interaction and content prioritization.
+- **Automated Infrastructure Management**: Utilizes Alembic for systematic database migrations, ensuring schema consistency across different environments.
+- **Self-Documenting Interface**: Integrates automated OpenAPI and ReDoc documentation, offering developers an intuitive and interactive testing environment.
 
 ## Features
 
@@ -55,7 +65,7 @@ Create a `.env` file in the root directory and configure the following:
 ```env
 DATABASE_HOSTNAME=localhost
 DATABASE_PORT=5432
-DATABASE_NAME=fast-api
+DATABASE_NAME=fastapi
 DATABASE_USERNAME=postgres
 DATABASE_PASSWORD=your_password
 SECRET_KEY=your_secret_key
@@ -63,18 +73,15 @@ ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
 ```
 
-### 5. Database Setup
+### 5. Database Setup & Migrations
 Ensure PostgreSQL is running and you have created the database specified in `.env`.
 
-The application uses SQLAlchemy to automatically create tables on startup:
-```python
-models.Base.metadata.create_all(bind=engine)
-```
-
-For advanced migrations, you can use **Alembic**:
+This project uses **Alembic** for database migrations. To set up the database schema, run:
 ```bash
 alembic upgrade head
 ```
+
+*(Note: Automatic table creation via `models.Base.metadata.create_all` is disabled in favor of Alembic migrations.)*
 
 ---
 
@@ -90,6 +97,12 @@ The API will be available at `http://127.0.0.1:8000`.
 
 ---
 
+## CORS Configuration
+
+The application includes CORS (Cross-Origin Resource Sharing) middleware, currently configured to allow all origins (`*`). This can be modified in `app/main.py`.
+
+---
+
 ## API Documentation
 
 FastAPI provides interactive documentation out of the box:
@@ -102,21 +115,21 @@ FastAPI provides interactive documentation out of the box:
 ## API Endpoints
 
 ### Authentication
-- `POST /login`: Get JWT access token using email and password.
+- `POST /login`: Authenticate user and receive JWT access token.
 
 ### Users
-- `POST /users/`: Create a new user.
-- `GET /users/{id}`: Get user details by ID.
+- `POST /users/`: Register a new user.
+- `GET /users/{id}`: Retrieve user details by ID.
 
 ### Posts
-- `GET /posts`: Get all posts (supports `limit`, `skip`, and `search` query parameters).
-- `POST /posts`: Create a new post (requires authentication).
-- `GET /posts/{id}`: Get a specific post.
-- `DELETE /posts/{id}`: Delete a post (owner only).
-- `PUT /posts/{id}`: Update a post (owner only).
+- `GET /posts`: List all posts (with pagination and search).
+- `POST /posts`: Create a new post (Auth required).
+- `GET /posts/{id}`: Get a single post by ID.
+- `DELETE /posts/{id}`: Delete a post (Owner only).
+- `PUT /posts/{id}`: Update a post (Owner only).
 
 ### Votes
-- `POST /vote/`: Vote (like/unlike) on a post.
+- `POST /vote/`: Cast or remove a vote (like/unlike) on a post (Auth required).
 
 ---
 
@@ -124,17 +137,17 @@ FastAPI provides interactive documentation out of the box:
 
 ```text
 fast-api/
-├── alembic/            # Database migration scripts
+├── alembic/            # Database migration scripts and environment
 ├── app/
-│   ├── routers/        # API route handlers
-│   ├── config.py       # Configuration and env variables
-│   ├── database.py     # Database connection and session
-│   ├── main.py         # Entry point of the application
-│   ├── models.py       # SQLAlchemy database models
-│   ├── oauth2.py       # Authentication logic
-│   ├── schemas.py      # Pydantic data models (validation)
-│   └── utils.py        # Helper functions (password hashing)
-├── .env                # Environment variables (not in git)
-├── alembic.ini         # Alembic configuration
-└── requirements.txt    # Project dependencies
+│   ├── routers/        # API route controllers (post, user, auth, vote)
+│   ├── config.py       # Configuration management using Pydantic Settings
+│   ├── database.py     # Database engine and session setup
+│   ├── main.py         # FastAPI application entry point and middleware
+│   ├── models.py       # SQLAlchemy ORM models
+│   ├── oauth2.py       # JWT authentication and authorization logic
+│   ├── schemas.py      # Pydantic models for request/response validation
+│   └── utils.py        # Utility functions (e.g., password hashing)
+├── .env                # Environment variables (template)
+├── alembic.ini         # Alembic configuration file
+└── requirements.txt    # Python dependencies
 ```
