@@ -1,7 +1,8 @@
+import { Link } from "react-router-dom";
 import loginImage from "../../assets/login.jpg";
 import Footer from "../../components/common/Footer";
 import Header from "../../components/common/Header";
-
+import { ROUTES } from "../../constants/routes";
 
 const Register = () => {
     return (
@@ -13,7 +14,7 @@ const Register = () => {
                     <img
                         src={loginImage}
                         alt="Register Illustration"
-                        className="absolute inset-0 w-full h-full object-cover scale-111"
+                        className="absolute inset-0 w-full h-full object-cover scale-102"
                     />
                     <div className="absolute inset-0 bg-violet-900/20 mix-blend-multiply" />
                 </div>
@@ -48,7 +49,7 @@ const Register = () => {
                                     type="email"
                                     id="email"
                                     placeholder="Enter your email address"
-                                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-violet-600 focus:outline-none focus:ring-4 focus:ring-violet-500/10 transition"
+                                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-violet-600 focus:outline-none focus:ring-4 focus:ring-violet-500/10 transition hover:scale-[1.01] focus:scale-[1.01]"
                                 />
                             </div>
 
@@ -65,7 +66,7 @@ const Register = () => {
                                     type="password"
                                     id="password"
                                     placeholder="Enter your password"
-                                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-violet-600 focus:outline-none focus:ring-4 focus:ring-violet-500/10 transition"
+                                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-violet-600 focus:outline-none focus:ring-4 focus:ring-violet-500/10 transition hover:scale-[1.01] focus:scale-[1.01]"
                                 />
                             </div>
 
@@ -82,26 +83,28 @@ const Register = () => {
                                     type="password"
                                     id="confirmPassword"
                                     placeholder="Confirm your password"
-                                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-violet-600 focus:outline-none focus:ring-4 focus:ring-violet-500/10 transition"
+                                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-violet-600 focus:outline-none focus:ring-4 focus:ring-violet-500/10 transition hover:scale-[1.01] focus:scale-[1.01]"
                                 />
                             </div>
 
                             {/* Register Button */}
                             <button
                                 type="submit"
-                                className="w-full mt-2 rounded-xl bg-violet-600 py-3.5 text-base md:text-lg font-bold text-white shadow-lg shadow-violet-500/30 transition duration-300 hover:bg-violet-700 active:scale-[0.98]"
+                                className="w-full mt-2 rounded-xl bg-violet-600 py-3.5 text-base md:text-lg font-bold text-white shadow-lg shadow-violet-500/30 transition duration-300 hover:bg-violet-700 active:scale-[0.98] hover:scale-[1.02]"
                             >
                                 Create Account
                             </button>
 
                         </form>
 
-                        {/* Login Link */}
                         <p className="mt-8 text-center text-sm font-medium text-slate-500">
                             Already have an account?{" "}
-                            <span className="cursor-pointer font-bold text-violet-600 transition hover:text-violet-800 underline-offset-4 hover:underline">
+                            <Link
+                                to={ROUTES.LOGIN}
+                                className="font-bold text-violet-600 transition hover:text-violet-800 underline-offset-4 hover:underline"
+                            >
                                 Login
-                            </span>
+                            </Link>
                         </p>
 
                     </div>

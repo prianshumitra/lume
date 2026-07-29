@@ -1,11 +1,22 @@
+import {Link, useLocation} from "react-router-dom";
+import { ROUTES } from "../../constants/routes";
+
 const Header = () => {
+    const location = useLocation();
+    const isLoginPage = location.pathname === ROUTES.LOGIN;
+    const isRegisterPage = location.pathname === ROUTES.REGISTER;
+
     return (
         <header className="bg-black border-b border-gray-800 sticky top-0 z-50">
             <div className="max-w-full mx-auto px-6 h-16 flex items-center justify-between">
                 {/* Logo */}
-                <h1 className="text-2xl font-bold text-white cursor-pointer ml-0">
-                    LUME
-                </h1>
+                <div className="flex items-center cursor-pointer ml-0">
+                    <img 
+                        src="/headerlogo.png" 
+                        alt="Lume Logo" 
+                        className="h-8 w-auto"
+                    />
+                </div>
 
                 {/* Navigation */}
                 <nav className="hidden md:flex items-center gap-8">
@@ -33,13 +44,25 @@ const Header = () => {
 
                 {/* Buttons */}
                 <div className="flex items-center gap-3">
-                    <button className="px-4 py-2 rounded-lg text-gray-300 hover:text-white transition">
-                        Login
-                    </button>
+                    <Link to={ROUTES.LOGIN} className="text-gray-300 hover:text-white transition-colors">
+                        <button className={`px-4 py-2 rounded-lg transition ${
+                            isLoginPage 
+                                ? "bg-white text-black font-semibold hover:bg-gray-200" 
+                                : "text-gray-300 hover:text-white"
+                        }`}>
+                            Login
+                        </button>
+                    </Link>
 
-                    <button className="px-4 py-2 rounded-lg bg-white text-black font-semibold hover:bg-gray-200 transition">
-                        Sign Up
-                    </button>
+                    <Link to={ROUTES.REGISTER} className="text-gray-300 hover:text-white transition-colors">
+                        <button className={`px-4 py-2 rounded-lg transition ${
+                            isRegisterPage 
+                                ? "bg-white text-black font-semibold hover:bg-gray-200" 
+                                : "text-gray-300 hover:text-white"
+                        }`}>
+                            Sign Up
+                        </button>
+                    </Link>
                 </div>
             </div>
         </header>
