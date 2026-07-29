@@ -1,0 +1,36 @@
+# Docker Compose File Overview:
+# This file is used to define and run multi-container Docker applications.
+# It allows you to configure your application's services, networks, and volumes in a single YAML file.
+#
+# How it works:
+# 1. 'version': Specifies the Docker Compose file format version.
+# 2. 'services': Defines the different components of your application.
+# 3. 'api': This is the name of our service (the FastAPI backend).
+#    - 'build: .': Tells Docker to build an image using the Dockerfile located in the current directory.
+#    - 'ports': Maps the host machine's port to the container's port (Host:Container).
+#      - '8000:8000': Allows you to access the app at http://localhost:8000 on your machine.
+#
+# Terminal Commands for Docker:
+# - Build and start containers:  docker-compose up --build
+# - Start containers in background: docker-compose up -d
+# - Stop and remove containers:  docker-compose down
+# - View logs:                   docker-compose logs -f
+# - List running containers:     docker ps
+# - Rebuild a specific service:  docker-compose build api
+
+version: "3"
+services:
+  api:
+    build: .
+    ports:
+      - 8000:8000
+    environment:
+      - DATABASE_HOSTNAME=${DATABASE_HOSTNAME}
+      - DATABASE_PORT=${DATABASE_PORT}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_USERNAME=${DATABASE_USERNAME}
+      - SECRET_KEY=${SECRET_KEY}
+      - ALGORITHM=${ALGORITHM}
+      - ACCESS_TOKEN_EXPIRE_MINUTES=${ACCESS_TOKEN_EXPIRE_MINUTES}
+
