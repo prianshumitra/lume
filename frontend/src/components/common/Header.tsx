@@ -7,39 +7,39 @@ const Header = () => {
     const isRegisterPage = location.pathname === ROUTES.REGISTER;
 
     return (
-        <header className="bg-black border-b border-gray-800 sticky top-0 z-50">
+        <header className="bg-[#020617] border-b border-white/10 sticky top-0 z-50">
             <div className="max-w-full mx-auto px-6 h-16 flex items-center justify-between">
                 {/* Logo */}
-                <div className="flex items-center cursor-pointer ml-0">
+                <Link to={ROUTES.HOME} className="flex items-center gap-3 cursor-pointer">
                     <img 
                         src="/headerlogo.png" 
                         alt="Lume Logo" 
                         className="h-8 w-auto"
                     />
-                </div>
+                </Link>
 
                 {/* Navigation */}
                 <nav className="hidden md:flex items-center gap-8">
-                    <a
-                        href="/home"
-                        className="text-gray-300 hover:text-white transition-colors"
+                    <Link
+                        to={ROUTES.HOME}
+                        className="text-gray-400 hover:text-white transition-colors"
                     >
                         Home
-                    </a>
+                    </Link>
 
-                    <a
-                        href="/about"
-                        className="text-gray-300 hover:text-white transition-colors"
+                    <Link
+                        to="/about"
+                        className="text-gray-400 hover:text-white transition-colors"
                     >
                         About
-                    </a>
+                    </Link>
 
-                    <a
-                        href="/contact"
-                        className="text-gray-300 hover:text-white transition-colors"
+                    <Link
+                        to="/contact"
+                        className="text-gray-400 hover:text-white transition-colors"
                     >
                         Contact
-                    </a>
+                    </Link>
                 </nav>
 
                 {/* Buttons */}

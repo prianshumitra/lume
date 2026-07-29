@@ -45,7 +45,7 @@ const Login = () => {
                                     type="email"
                                     id="email"
                                     placeholder="Enter your email"
-                                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-violet-600 focus:outline-none focus:ring-4 focus:ring-violet-500/10 transition"
+                                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-violet-600 focus:outline-none focus:ring-4 focus:ring-violet-500/10 transition hover:scale-[1.01] focus:scale-[1.01]"
                                 />
                             </div>
 
@@ -60,7 +60,7 @@ const Login = () => {
                                     type="password"
                                     id="password"
                                     placeholder="Enter your password"
-                                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-violet-600 focus:outline-none focus:ring-4 focus:ring-violet-500/10 transition"
+                                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-violet-600 focus:outline-none focus:ring-4 focus:ring-violet-500/10 transition hover:scale-[1.01] focus:scale-[1.01]"
                                 />
                             </div>
 
@@ -73,16 +73,16 @@ const Login = () => {
                                 </label>
                                 <input
                                     type="password"
-                                    id="password"
-                                    placeholder="Enter your password"
-                                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-violet-600 focus:outline-none focus:ring-4 focus:ring-violet-500/10 transition"
+                                    id="confirmPassword"
+                                    placeholder="Confirm your password"
+                                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-violet-600 focus:outline-none focus:ring-4 focus:ring-violet-500/10 transition hover:scale-[1.01] focus:scale-[1.01]"
                                 />
 
                             </div>
 
                             <button
                                 type="submit"
-                                className="w-full mt-2 rounded-xl bg-violet-600 py-3.5 text-base md:text-lg font-bold text-white shadow-lg shadow-violet-500/30 transition duration-300 hover:bg-violet-700 active:scale-[0.98]"
+                                className="w-full mt-2 rounded-xl bg-violet-600 py-3.5 text-base md:text-lg font-bold text-white shadow-lg shadow-violet-500/30 transition duration-300 hover:bg-violet-700 active:scale-[0.98] hover:scale-[1.02]"
                             >
                                 Sign In
                             </button>

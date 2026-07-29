@@ -17,7 +17,7 @@ const Footer = () => {
 
                         <p className="text-slate-400 text-base mt-4 leading-relaxed">
                             A space where ideas grow and connections flourish.
-                            Join our community of creators and thinkers.
+                            Join our community of developers.
                         </p>
 
                         <p className="text-slate-500 text-sm mt-6">
@@ -140,7 +140,7 @@ const Footer = () => {
                 {/* Bottom */}
                 <div className="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
                     <p className="text-slate-500 text-sm text-center md:text-left">
-                        © {new Date().getFullYear()} Lume. Crafted for creators
+                        © {new Date().getFullYear()} Lume. Crafted for developers
                         worldwide.
                     </p>
 
