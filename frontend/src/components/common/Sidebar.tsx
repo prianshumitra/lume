@@ -91,10 +91,12 @@ const Sidebar = () => {
                     </div>
                 </div>
 
-                <button className="flex w-full items-center justify-center gap-3 rounded-xl bg-red-500/10 px-5 py-3 text-red-400 transition hover:bg-red-500 hover:text-white">
-                    <LogOut className="h-5 w-5" />
-                    Logout
-                </button>
+                <Link to = {ROUTES.LOGIN}>
+                    <button className="flex w-full items-center justify-center gap-3 rounded-xl bg-red-500/10 px-5 py-3 text-red-400 transition hover:bg-red-500 hover:text-white">
+                        <LogOut className="h-5 w-5" />
+                        Logout
+                    </button>
+                </Link>
             </div>
         </aside>
     );
