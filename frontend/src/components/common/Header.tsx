@@ -28,14 +28,14 @@ const Header = () => {
                     </Link>
 
                     <Link
-                        to="/about"
+                        to={ROUTES.ABOUT}
                         className="text-gray-400 hover:text-white transition-colors"
                     >
                         About
                     </Link>
 
                     <Link
-                        to="/contact"
+                        to={ROUTES.CONTACT}
                         className="text-gray-400 hover:text-white transition-colors"
                     >
                         Contact

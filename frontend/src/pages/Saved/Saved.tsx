@@ -2,11 +2,10 @@ import Header from "../../components/common/Header";
 import Sidebar from "../../components/common/Sidebar";
 import Footer from "../../components/common/Footer";
 import PostCard from "../../components/post/PostCard";
-import { MessageSquare } from "lucide-react";
+import { Bookmark } from "lucide-react";
 
-const Posts = () => {
-    // This could be a search results page or a specific tag feed
-    const posts = [
+const Saved = () => {
+    const savedPosts = [
         {
             id: 1,
             author: {
@@ -18,18 +17,6 @@ const Posts = () => {
             timestamp: "2 hours ago",
             votes: 42,
             commentCount: 5
-        },
-        {
-            id: 2,
-            author: {
-                name: "Marcus Thorne",
-                username: "marcust",
-                avatar: "https://ui-avatars.com/api/?background=F59E0B&color=fff&name=Marcus+Thorne"
-            },
-            content: "What if we thought about social media as a garden rather than a stream? A place to cultivate long-term ideas instead of just catching fleeting moments. That's the vibe I'm getting here.",
-            timestamp: "5 hours ago",
-            votes: 128,
-            commentCount: 12
         }
     ];
 
@@ -42,25 +29,33 @@ const Posts = () => {
                     <div className="max-w-4xl mx-auto">
                         <header className="flex items-center gap-4 mb-8">
                             <div className="p-3 rounded-2xl bg-violet-600/20 text-violet-400">
-                                <MessageSquare className="w-6 h-6" />
+                                <Bookmark className="w-6 h-6" />
                             </div>
                             <h1 className="text-3xl font-bold bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
-                                Discover Posts
+                                Saved Posts
                             </h1>
                         </header>
 
-                        <div className="grid gap-6 pb-20">
-                            {posts.map((post) => (
-                                <PostCard 
-                                    key={post.id}
-                                    author={post.author}
-                                    content={post.content}
-                                    timestamp={post.timestamp}
-                                    votes={post.votes}
-                                    commentCount={post.commentCount}
-                                />
-                            ))}
-                        </div>
+                        {savedPosts.length > 0 ? (
+                            <div className="grid gap-6 pb-20">
+                                {savedPosts.map((post) => (
+                                    <PostCard 
+                                        key={post.id}
+                                        author={post.author}
+                                        content={post.content}
+                                        timestamp={post.timestamp}
+                                        votes={post.votes}
+                                        commentCount={post.commentCount}
+                                    />
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="flex flex-col items-center justify-center py-20 text-slate-500">
+                                <Bookmark className="w-16 h-16 mb-4 opacity-20" />
+                                <p className="text-xl font-medium">No saved posts yet</p>
+                                <p className="text-sm">Posts you save will appear here.</p>
+                            </div>
+                        )}
                     </div>
                 </main>
             </div>
@@ -69,4 +64,4 @@ const Posts = () => {
     );
 };
 
-export default Posts;
+export default Saved;

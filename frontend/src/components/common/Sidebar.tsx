@@ -22,22 +22,22 @@ const Sidebar = () => {
         {
             icon: Compass,
             label: "Explore",
-            path: "/explore",
+            path: ROUTES.EXPLORE,
         },
         {
             icon: MessageCircle,
             label: "Messages",
-            path: "/messages",
+            path: ROUTES.MESSAGES,
         },
         {
             icon: Bell,
             label: "Notifications",
-            path: "/notifications",
+            path: ROUTES.NOTIFICATIONS,
         },
         {
             icon: Bookmark,
             label: "Saved",
-            path: "/saved",
+            path: ROUTES.SAVED,
         },
         {
             icon: User,

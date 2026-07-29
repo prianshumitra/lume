@@ -1,4 +1,6 @@
 import { FaGithub, FaInstagram, FaLinkedin, FaXTwitter } from "react-icons/fa6";
+import { Link } from "react-router-dom";
+import { ROUTES } from "../../constants/routes";
 
 const Footer = () => {
     return (
@@ -35,30 +37,30 @@ const Footer = () => {
 
                             <ul className="space-y-4 text-slate-400 text-sm">
                                 <li>
-                                    <a
-                                        href="/"
+                                    <Link
+                                        to={ROUTES.HOME}
                                         className="hover:text-violet-400 transition-colors"
                                     >
                                         Home
-                                    </a>
+                                    </Link>
                                 </li>
 
                                 <li>
-                                    <a
-                                        href="/about"
+                                    <Link
+                                        to={ROUTES.ABOUT}
                                         className="hover:text-violet-400 transition-colors"
                                     >
                                         About Us
-                                    </a>
+                                    </Link>
                                 </li>
 
                                 <li>
-                                    <a
-                                        href="/features"
+                                    <Link
+                                        to="/features"
                                         className="hover:text-violet-400 transition-colors"
                                     >
                                         Features
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                         </div>
@@ -107,12 +109,12 @@ const Footer = () => {
 
                             <ul className="space-y-4 text-slate-400 text-sm">
                                 <li>
-                                    <a
-                                        href="/contact"
+                                    <Link
+                                        to={ROUTES.CONTACT}
                                         className="hover:text-violet-400 transition-colors"
                                     >
                                         Contact
-                                    </a>
+                                    </Link>
                                 </li>
 
                                 <li>

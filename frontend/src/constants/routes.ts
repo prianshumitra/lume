@@ -4,4 +4,10 @@ export const ROUTES = {
     REGISTER: "/register",
     POSTS: "/posts",
     PROFILE: "/profile",
+    EXPLORE: "/explore",
+    MESSAGES: "/messages",
+    NOTIFICATIONS: "/notifications",
+    SAVED: "/saved",
+    ABOUT: "/about",
+    CONTACT: "/contact",
 };
