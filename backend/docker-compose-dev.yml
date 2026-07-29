@@ -18,6 +18,8 @@
 # - List running containers:     docker ps
 # - Rebuild a specific service:  docker-compose build api
 
+
+# command -> docker-compose -f docker-compose-prod.yml up -d
 version: "3"
 services:
   api:
