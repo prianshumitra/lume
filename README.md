@@ -290,12 +290,6 @@ If you'd like to improve Lume:
 
 ---
 
-## 📜 License
-
-This project is licensed under the MIT License.
-
----
-
 ## 👨‍💻 Author
 
 **Prianshu Mitra**
