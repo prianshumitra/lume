@@ -1,4 +1,4 @@
-﻿# 🌟 Lume
+﻿<img src="frontend/public/headerlogo.png" width="200" alt="Lume Logo">
 
 > **Where ideas grow.**
 
